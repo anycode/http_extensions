@@ -1,14 +1,14 @@
 name: http_extensions_log
 description: An http extension that logs all requests
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/aloisdeniel/http_extensions
 
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
 
 dependencies:
-  meta: ^1.3.0
-  http: ^0.13.3
+  meta: ^1.7.0
+  http: ^0.13.4
   http_extensions: ^1.0.0
     #path: ../http_extensions
   logging: ^1.0.0
