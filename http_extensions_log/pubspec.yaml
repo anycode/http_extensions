@@ -11,4 +11,4 @@ dependencies:
   http: ^0.13.4
   http_extensions: ^1.0.0
     #path: ../http_extensions
-  logging: ^1.0.0
+  logging: ^1.0.2
