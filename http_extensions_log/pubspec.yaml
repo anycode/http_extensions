@@ -13,5 +13,9 @@ dependencies:
   cancellation_token_http: ^1.2.0
   meta: ^1.9.0
   http_extensions: #^1.1.0
-    path: ../http_extensions
-  logging: ^1.1.0
+    #path: ../http_extensions
+    git:
+      url: https://github.com/anycode/http_extensions.git
+      path: http_extensions
+      ref: cancelable
+  logging: ^1.1.1
