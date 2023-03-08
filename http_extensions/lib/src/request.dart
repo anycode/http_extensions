@@ -1,4 +1,4 @@
-import 'package:http/http.dart' as http;
+import 'package:cancellation_token_http/http.dart' as http;
 
 class ExtensionRequest implements http.BaseRequest {
   final http.BaseRequest request;
@@ -50,7 +50,7 @@ class ExtensionRequest implements http.BaseRequest {
   String get method => request.method;
 
   @override
-  Future<http.StreamedResponse> send() => request.send();
+  Future<http.StreamedResponse> send({http.CancellationToken? cancellationToken}) => request.send(cancellationToken: cancellationToken);
 
   @override
   Uri get url => request.url;

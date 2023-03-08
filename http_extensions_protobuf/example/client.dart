@@ -1,7 +1,7 @@
 import 'package:http_extensions/http_extensions.dart';
 import 'package:http_extensions_protobuf/http_extensions_protobuf.dart';
 import 'package:logging/logging.dart';
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 import 'hello.pb.dart';
 

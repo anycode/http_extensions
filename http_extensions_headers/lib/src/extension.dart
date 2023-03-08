@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'package:logging/logging.dart';
 
@@ -14,7 +14,10 @@ class HeadersExtension extends Extension<HeadersOptions> {
 
   @override
   Future<StreamedResponse> sendWithOptions(
-      BaseRequest request, HeadersOptions options) async {
+    BaseRequest request,
+    HeadersOptions options, {
+    CancellationToken? cancellationToken,
+  }) async {
     if (options.headersBuilder != null) {
       final addedHeaders = await options.headersBuilder!(request);
       if (addedHeaders.isNotEmpty) {
@@ -23,6 +26,6 @@ class HeadersExtension extends Extension<HeadersOptions> {
       }
     }
 
-    return await super.sendWithOptions(request, options);
+    return await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
   }
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:http_extensions/http_extensions.dart';
 import 'package:http_extensions_headers/http_extensions_headers.dart';
 import 'package:logging/logging.dart';
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 void main() async {
   // Displaying logs

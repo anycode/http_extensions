@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:protobuf/protobuf.dart';
 
 class ProtobufRequest extends BaseRequest {

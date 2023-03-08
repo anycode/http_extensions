@@ -1,31 +1,32 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 
 class LogOptions {
   final bool isEnabled;
+
   const LogOptions({this.isEnabled = true});
 }
 
 class LogExtension extends Extension<LogOptions> {
-  LogExtension([LogOptions defaultOptions = const LogOptions()])
-      : super(defaultOptions: defaultOptions);
+  LogExtension([LogOptions defaultOptions = const LogOptions()]) : super(defaultOptions: defaultOptions);
 
   int _requestId = 0;
 
   @override
   Future<StreamedResponse> sendWithOptions(
-      BaseRequest request, LogOptions options) async {
+    BaseRequest request,
+    LogOptions options, {
+    CancellationToken? cancellationToken,
+  }) async {
     if (!options.isEnabled) {
-      return await super.sendWithOptions(request, options);
+      return await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
     }
 
     try {
       _requestId++;
-      print(
-          '[HTTP]($_requestId:${request.method}:${request.url}) Starting request ...');
-      final result = await super.sendWithOptions(request, options);
-      print(
-          '[HTTP]($_requestId:${request.method}:${request.url}) Request succeeded (statusCode: ${result.statusCode})');
+      print('[HTTP]($_requestId:${request.method}:${request.url}) Starting request ...');
+      final result = await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
+      print('[HTTP]($_requestId:${request.method}:${request.url}) Request succeeded (statusCode: ${result.statusCode})');
       return result;
     } catch (e) {
       print('[HTTP] An error occured during request : $e');

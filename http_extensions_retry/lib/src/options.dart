@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 typedef RetryEvaluator = FutureOr<bool> Function(
     dynamic error, StreamedResponse? response);

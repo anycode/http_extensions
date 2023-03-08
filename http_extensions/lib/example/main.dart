@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'log_extension.dart';
 

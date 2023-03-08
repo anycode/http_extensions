@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'package:logging/logging.dart';
 
@@ -84,9 +84,13 @@ class LogExtension extends Extension<LogOptions> {
   }
 
   @override
-  Future<StreamedResponse> sendWithOptions(BaseRequest request, LogOptions options) async {
+  Future<StreamedResponse> sendWithOptions(
+    BaseRequest request,
+    LogOptions options, {
+    CancellationToken? cancellationToken,
+  }) async {
     if (!options.isEnabled) {
-      return await super.sendWithOptions(request, options);
+      return await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
     }
 
     final id = _id++;
@@ -100,7 +104,7 @@ class LogExtension extends Extension<LogOptions> {
     log(requestLog, options);
 
     try {
-      var response = await super.sendWithOptions(request, options);
+      var response = await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
 
       if (options.logResponseContent) {
         response = BufferedStreamResponse(response);

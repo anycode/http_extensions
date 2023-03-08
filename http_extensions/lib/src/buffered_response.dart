@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 /// Allows to read multiple times the content of a [StreamedResponse].
 class BufferedStreamResponse implements StreamedResponse {

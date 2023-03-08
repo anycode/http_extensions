@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 class BaseUrlRequest implements BaseRequest {
   final Uri baseUrl;
@@ -44,7 +44,7 @@ class BaseUrlRequest implements BaseRequest {
   String get method => base.method;
 
   @override
-  Future<StreamedResponse> send() => throw Exception('Not supported');
+  Future<StreamedResponse> send({CancellationToken? cancellationToken}) => throw Exception('Not supported');
 
   @override
   Uri get url => baseUrl.resolve(base.url.toString());

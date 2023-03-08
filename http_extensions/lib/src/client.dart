@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:cancellation_token_http/http.dart' as http;
 import 'package:http_extensions/http_extensions.dart';
 
 import '../helpers.dart';
@@ -26,28 +26,64 @@ class ExtendedClient extends http.BaseClient {
   }
 
   @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
-    return root.send(request);
+  Future<http.StreamedResponse> send(
+    http.BaseRequest request, {
+    http.CancellationToken? cancellationToken,
+  }) {
+    return root.send(request, cancellationToken: cancellationToken);
   }
 
-  Future<http.StreamedResponse> sendWithOptions(http.BaseRequest request, List<dynamic>? options) {
-    return root.send(ExtensionRequest(options: options, request: request));
+  Future<http.StreamedResponse> sendWithOptions(
+    http.BaseRequest request,
+    List<dynamic>? options, {
+    http.CancellationToken? cancellationToken,
+  }) {
+    return root.send(ExtensionRequest(options: options, request: request), cancellationToken: cancellationToken);
   }
 
-  Future<http.Response> getWithOptions(url, {Map<String, String>? headers, List<dynamic>? options}) =>
-      _sendUnstreamedWithOptions('GET', url, headers, options);
+  Future<http.Response> getWithOptions(
+    url, {
+    Map<String, String>? headers,
+    List<dynamic>? options,
+    http.CancellationToken? cancellationToken,
+  }) =>
+      _sendUnstreamedWithOptions('GET', url, headers, options, cancellationToken);
 
-  Future<http.Response> headWithOptions(url, {Map<String, String>? headers, List<dynamic>? options}) =>
-      _sendUnstreamedWithOptions('HEAD', url, headers, options);
+  Future<http.Response> headWithOptions(
+    url, {
+    Map<String, String>? headers,
+    List<dynamic>? options,
+    http.CancellationToken? cancellationToken,
+  }) =>
+      _sendUnstreamedWithOptions('HEAD', url, headers, options, cancellationToken);
 
-  Future<http.Response> deleteWithOptions(url, {Map<String, String>? headers, List<dynamic>? options}) =>
-      _sendUnstreamedWithOptions('DELETE', url, headers, options);
+  Future<http.Response> deleteWithOptions(
+    url, {
+    Map<String, String>? headers,
+    List<dynamic>? options,
+    http.CancellationToken? cancellationToken,
+  }) =>
+      _sendUnstreamedWithOptions('DELETE', url, headers, options, cancellationToken);
 
-  Future<http.Response> putWithOptions(url, {Map<String, String>? headers, body, List<dynamic>? options, Encoding? encoding}) =>
-      _sendUnstreamedWithOptions('PUT', url, headers, options, body, encoding);
+  Future<http.Response> putWithOptions(
+    url, {
+    Map<String, String>? headers,
+    body,
+    List<dynamic>? options,
+    Encoding? encoding,
+    http.CancellationToken? cancellationToken,
+  }) =>
+      _sendUnstreamedWithOptions('PUT', url, headers, options, body, encoding, cancellationToken);
 
-  Future<http.Response> postWithOptions(url, {Map<String, String>? headers, body, List<dynamic>? options, Encoding? encoding}) =>
-      _sendUnstreamedWithOptions('POST', url, headers, options, body, encoding);
+  Future<http.Response> postWithOptions(
+    url, {
+    Map<String, String>? headers,
+    body,
+    List<dynamic>? options,
+    Encoding? encoding,
+    http.CancellationToken? cancellationToken,
+  }) =>
+      _sendUnstreamedWithOptions('POST', url, headers, options, body, encoding, cancellationToken);
 
   Future<http.Response> formWithOptions(
     String url, {
@@ -55,6 +91,7 @@ class ExtendedClient extends http.BaseClient {
     Map<String, dynamic>? body,
     List<http.MultipartFile>? files,
     List<dynamic>? options,
+    http.CancellationToken? cancellationToken,
   }) async {
     final request = http.MultipartRequest('POST', Uri.parse(url));
 
@@ -72,8 +109,15 @@ class ExtendedClient extends http.BaseClient {
   }
 
   /// Sends a non-streaming [Request] and returns a non-streaming [Response].
-  Future<http.Response> _sendUnstreamedWithOptions(String method, url, Map<String, String>? headers, List<dynamic>? options,
-      [body, Encoding? encoding]) async {
+  Future<http.Response> _sendUnstreamedWithOptions(
+    String method,
+    url,
+    Map<String, String>? headers,
+    List<dynamic>? options, [
+    body,
+    Encoding? encoding,
+    http.CancellationToken? cancellationToken,
+  ]) async {
     if (url is String) url = Uri.parse(url);
     var request = http.Request(method, url);
 
@@ -91,7 +135,7 @@ class ExtendedClient extends http.BaseClient {
       }
     }
 
-    return http.Response.fromStream(await sendWithOptions(request, options));
+    return http.Response.fromStream(await sendWithOptions(request, options, cancellationToken: cancellationToken));
   }
 }
 
@@ -103,7 +147,10 @@ abstract class Extension<TOptions> extends http.BaseClient {
   Extension({http.BaseClient? inner, required this.defaultOptions}) : _inner = inner;
 
   @override
-  Future<http.StreamedResponse> send(http.BaseRequest request) {
+  Future<http.StreamedResponse> send(
+    http.BaseRequest request, {
+    http.CancellationToken? cancellationToken,
+  }) {
     dynamic options;
 
     if (request is ExtensionRequest) {
@@ -115,9 +162,13 @@ abstract class Extension<TOptions> extends http.BaseClient {
     return sendWithOptions(request, options);
   }
 
-  Future<http.StreamedResponse> sendWithOptions(http.BaseRequest request, TOptions options) {
+  Future<http.StreamedResponse> sendWithOptions(
+    http.BaseRequest request,
+    TOptions options, {
+    http.CancellationToken? cancellationToken,
+  }) {
     assert(_inner != null, 'inner http client must not be null');
-    return _inner!.send(request);
+    return _inner!.send(request, cancellationToken: cancellationToken);
   }
 }
 

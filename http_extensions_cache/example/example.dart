@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'package:http_extensions_cache/http_extensions_cache.dart';
 import 'package:http_extensions_cache/src/stores/memory_store.dart';

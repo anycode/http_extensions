@@ -1,4 +1,4 @@
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'package:logging/logging.dart';
 
@@ -24,7 +24,11 @@ class RetryExtension extends Extension<RetryOptions> {
     return BufferedRequest(original);
   }
 
-  Future<StreamedResponse> _retry(BaseRequest request, RetryOptions options) async {
+  Future<StreamedResponse> _retry(
+    BaseRequest request,
+    RetryOptions options, {
+    CancellationToken? cancellationToken,
+  }) async {
     final newOptions = options.copyWith(
       retries: options.retries - 1,
     );
@@ -40,28 +44,32 @@ class RetryExtension extends Extension<RetryOptions> {
     }
 
     logger?.fine('Retrying request (remaining retries: ${options.retries - 1})');
-    return await sendWithOptions(_copyRequest(request), newOptions);
+    return await sendWithOptions(_copyRequest(request), newOptions, cancellationToken: cancellationToken);
   }
 
   @override
-  Future<StreamedResponse> sendWithOptions(BaseRequest request, RetryOptions options) async {
+  Future<StreamedResponse> sendWithOptions(
+    BaseRequest request,
+    RetryOptions options, {
+    CancellationToken? cancellationToken,
+  }) async {
     // Copying request a first time in case of a [StreamRequest] that should
     // be buffered for potential later retry.
     request = _copyRequest(request);
 
     try {
-      final result = await super.sendWithOptions(request, options);
+      final result = await super.sendWithOptions(request, options, cancellationToken: cancellationToken);
       final eval = options.retryEvaluator(null, result);
       final retry = eval is Future ? await eval : eval;
       if (options.retries > 0 && retry) {
-        return _retry(request, options);
+        return _retry(request, options, cancellationToken: cancellationToken);
       }
       return result;
     } catch (e) {
       final eval = options.retryEvaluator(e, null);
       final retry = eval is Future ? await eval : eval;
       if (options.retries > 0 && retry) {
-        return _retry(request, options);
+        return _retry(request, options, cancellationToken: cancellationToken);
       } else {
         rethrow;
       }

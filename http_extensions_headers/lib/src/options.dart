@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 
 typedef HeadersBuilder = FutureOr<Map<String, String>> Function(
     BaseRequest request);

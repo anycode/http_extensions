@@ -7,7 +7,7 @@ Base classes for building standard extensions for [http](https://pub.dev/package
 To build an extension, you have to provide an `Extension` implementation :
 
 ```dart
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 
 class LogOptions {
@@ -47,7 +47,7 @@ class LogExtension extends Extension<LogOptions> {
 To call request using your extensions, the easiest way is to instantiate an `ExtendedClient` with your extensions.
 
 ```dart
-import 'package:http/http.dart';
+import 'package:cancellation_token_http/http.dart';
 import 'package:http_extensions/http_extensions.dart';
 import 'log_extension.dart';
 
