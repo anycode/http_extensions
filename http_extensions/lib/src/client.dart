@@ -159,7 +159,7 @@ abstract class Extension<TOptions> extends http.BaseClient {
 
     options ??= defaultOptions;
 
-    return sendWithOptions(request, options);
+    return sendWithOptions(request, options, cancellationToken: cancellationToken);
   }
 
   Future<http.StreamedResponse> sendWithOptions(
