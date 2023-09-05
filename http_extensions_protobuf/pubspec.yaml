@@ -12,7 +12,7 @@ environment:
 
 dependencies:
   cancellation_token_http: ^1.2.0
-  meta: ^1.9.0
+  meta: ^1.9.1
   http_extensions: #^1.1.1
     #path: ../http_extensions
     git:
