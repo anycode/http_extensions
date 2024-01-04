@@ -3,7 +3,7 @@ description: >-
   An http extension that adds headers to requests.
   Uses Cancelable Token HTTP Client library which allows canceling requests.
   (fully compatible with HTTP Client library)
-version: 1.1.1
+version: 1.1.2
 homepage: https://github.com/anycode/http_extensions
 publish_to: 'none'
 
