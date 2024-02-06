@@ -20,3 +20,5 @@ dependencies:
       path: http_extensions
       ref: cancelable
   logging: ^1.2.0
+dev_dependencies:
+  lints: ^3.0.0

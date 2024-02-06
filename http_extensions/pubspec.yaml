@@ -12,3 +12,5 @@ environment:
 dependencies:
   cancellation_token_http: ^2.0.0
   meta: ^1.11.0
+dev_dependencies:
+  lints: ^3.0.0
