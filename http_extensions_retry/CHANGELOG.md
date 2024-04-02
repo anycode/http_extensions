@@ -1,3 +1,7 @@
+## 1.1.2
+
+- Published to repo
+
 ## 1.0.0
 
 - Null safety migration.

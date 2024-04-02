@@ -46,6 +46,7 @@ class BufferedRequest<T extends BaseRequest> extends BaseRequest {
   Map<String, String> get headers => base.headers;
 
   @override
+  // ignore: must_call_super
   ByteStream finalize() {
     if (_bytes != null) return ByteStream.fromBytes(_bytes!);
     _futureBytes ??= _getBytes();

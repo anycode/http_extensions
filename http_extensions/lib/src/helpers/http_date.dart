@@ -84,7 +84,7 @@ class HttpDate {
   /// 3.1.1](http://tools.ietf.org/html/rfc2616#section-3.3.1
   /// 'RFC-2616 section 3.1.1').
   static DateTime parse(String date) {
-    final int SP = 32;
+    final int space = 32;
     const List wkdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const List weekdays = [
       'Monday',
@@ -109,6 +109,7 @@ class HttpDate {
       'Nov',
       'Dec'
     ];
+    // ignore: unused_local_variable
     const List wkdaysLowerCase = [
       'mon',
       'tue',
@@ -118,6 +119,7 @@ class HttpDate {
       'sat',
       'sun'
     ];
+    // ignore: unused_local_variable
     const List weekdaysLowerCase = [
       'monday',
       'tuesday',
@@ -127,6 +129,7 @@ class HttpDate {
       'saturday',
       'sunday'
     ];
+    // ignore: unused_local_variable
     const List monthsLowerCase = [
       'jan',
       'feb',
@@ -204,7 +207,7 @@ class HttpDate {
 
     int expectNum(String separator) {
       int pos;
-      if (separator.length > 0) {
+      if (separator.isNotEmpty) {
         pos = date.indexOf(separator, index);
       } else {
         pos = date.length;
@@ -214,7 +217,7 @@ class HttpDate {
       try {
         int value = int.parse(tmp);
         return value;
-      } on FormatException catch (e) {
+      } on FormatException catch (_) {
         throw Exception('Invalid HTTP date $date');
       }
     }
@@ -225,6 +228,7 @@ class HttpDate {
       }
     }
 
+    // ignore: unused_local_variable
     int weekday = expectWeekday();
     int day;
     int month;
@@ -234,7 +238,7 @@ class HttpDate {
     int seconds;
     if (format == formatAsctime) {
       month = expectMonth(' ');
-      if (date.codeUnitAt(index) == SP) index++;
+      if (date.codeUnitAt(index) == space) index++;
       day = expectNum(' ');
       hours = expectNum(':');
       minutes = expectNum(':');
@@ -255,6 +259,7 @@ class HttpDate {
   }
 
   // Parse a cookie date string.
+  // ignore: unused_element
   static DateTime _parseCookieDate(String date) {
     const List monthsLowerCase = [
       'jan',
@@ -314,17 +319,23 @@ class HttpDate {
 
     int toInt(String s) {
       int index = 0;
-      for (; index < s.length && isDigit(s[index]); index++);
+      for (; index < s.length && isDigit(s[index]); index++) {}
       return int.parse(s.substring(0, index));
     }
 
     var tokens = [];
     while (!isEnd()) {
-      while (!isEnd() && isDelimiter(date[position])) position++;
+      while (!isEnd() && isDelimiter(date[position])) {
+        position++;
+      }
       int start = position;
-      while (!isEnd() && isNonDelimiter(date[position])) position++;
+      while (!isEnd() && isNonDelimiter(date[position])) {
+        position++;
+      }
       tokens.add(date.substring(start, position).toLowerCase());
-      while (!isEnd() && isDelimiter(date[position])) position++;
+      while (!isEnd() && isDelimiter(date[position])) {
+        position++;
+      }
     }
 
     String? timeStr;
@@ -359,24 +370,38 @@ class HttpDate {
     }
 
     int year = toInt(yearStr!);
-    if (year >= 70 && year <= 99)
+    if (year >= 70 && year <= 99) {
       year += 1900;
-    else if (year >= 0 && year <= 69) year += 2000;
-    if (year < 1601) error();
+    } else if (year >= 0 && year <= 69) {
+      year += 2000;
+    }
+    if (year < 1601) {
+      error();
+    }
 
     int dayOfMonth = toInt(dayOfMonthStr!);
-    if (dayOfMonth < 1 || dayOfMonth > 31) error();
+    if (dayOfMonth < 1 || dayOfMonth > 31) {
+      error();
+    }
 
     int month = getMonth(monthStr!) + 1;
 
     var timeList = timeStr!.split(':');
-    if (timeList.length != 3) error();
+    if (timeList.length != 3) {
+      error();
+    }
     int hour = toInt(timeList[0]);
     int minute = toInt(timeList[1]);
     int second = toInt(timeList[2]);
-    if (hour > 23) error();
-    if (minute > 59) error();
-    if (second > 59) error();
+    if (hour > 23) {
+      error();
+    }
+    if (minute > 59) {
+      error();
+    }
+    if (second > 59) {
+      error();
+    }
 
     return DateTime.utc(year, month, dayOfMonth, hour, minute, second, 0);
   }

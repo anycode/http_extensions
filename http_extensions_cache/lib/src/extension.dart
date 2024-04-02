@@ -68,11 +68,6 @@ class CacheExtension extends Extension<CacheOptions> {
     }
 
     logger?.fine('[$cacheId][${request.url}] Not updating, try to use local cache ...');
-
-    if (cacheResult == null) {
-      throw NoCacheAvailableException();
-    }
-
     logger?.fine('[$cacheId][${request.url}] Result found in cache for corresponding request');
 
     return cacheResult;

@@ -23,7 +23,7 @@ class BaseUrlExtension extends Extension<BaseUrlOptions> {
       final originalUrl = request.url.toString();
       final baseUrl = BaseUrlRequest(base: request, baseUrl: options.url);
 
-      logger?.fine('Base url \'${options.url}\' appended to path \'${originalUrl}\' : ${baseUrl.url}');
+      logger?.fine('Base url \'${options.url}\' appended to path \'$originalUrl\' : ${baseUrl.url}');
 
       request = baseUrl;
     }

@@ -5,9 +5,10 @@ description: >-
   (fully compatible with HTTP Client library)
 version: 1.1.2
 homepage: https://github.com/anycode/http_extensions
+publish_to: https://pub.anycode.dev
 
 environment:
-  sdk: '>=2.12.0-0 <3.0.0'
+  sdk: '>=2.12.0 <4.0.0'
 
 dependencies:
   cancellation_token_http: ^2.0.0

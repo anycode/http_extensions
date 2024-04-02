@@ -1,0 +1,7 @@
+dependency_overrides:
+#  http_extensions: #^1.1.1
+#    #path: ../http_extensions
+#    git:
+#      url: https://github.com/anycode/http_extensions.git
+#      path: http_extensions
+#      ref: cancelable
